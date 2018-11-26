@@ -2,9 +2,10 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include "dungeon.h"
 #include "colors.h"
 #include "player.h"
-#include "dungeon.h"
+#include "floor.h"
 
 #define SCREEN_W 80
 #define SCREEN_H 50
@@ -13,7 +14,7 @@
 #define MAP_W 80
 #define MAP_H 40
 
-bool handle_keys();
+bool handle_keys(Player* p, Floor* f);
 void render_all(Dungeon* d, TCOD_console_t con);
 
 int main() {
@@ -21,11 +22,13 @@ int main() {
     TCOD_console_t con;
     Player* p;
     Dungeon* d;
+    Floor* f;
 
     running = true;
     con = TCOD_console_new(SCREEN_W, SCREEN_H);
     p = init_player(0, 0);
     d = dungeon_new(MAP_W, MAP_H, p);
+    f = d->floors[0];
 
     TCOD_console_set_custom_font(
         "terminal16x16_gs_ro.png",
@@ -39,7 +42,7 @@ int main() {
     );
 
     while (!TCOD_console_is_window_closed()) {
-        running = handle_keys(p);
+        running = handle_keys(p, f);
         if (!running) {
             return 0;
         }
@@ -48,7 +51,7 @@ int main() {
     }
 }
 
-bool handle_keys(Player* p) {
+bool handle_keys(Player* p, Floor* f) {
     TCOD_key_t key;
 
     key = TCOD_console_check_for_keypress(TCOD_EVENT_KEY_PRESS);
@@ -58,16 +61,16 @@ bool handle_keys(Player* p) {
             // Nothing happened
             break;
         case TCODK_UP:
-            player_move(p, -1, 0);
+            player_move(p, f, -1, 0);
             break;
         case TCODK_DOWN:
-            player_move(p, 1, 0);
+            player_move(p, f, 1, 0);
             break;
         case TCODK_LEFT:
-            player_move(p, 0, -1);
+            player_move(p, f, 0, -1);
             break;
         case TCODK_RIGHT:
-            player_move(p, 0, 1);
+            player_move(p, f, 0, 1);
             break;
     }
 

@@ -19,23 +19,24 @@ typedef struct {
 } Entity;
 
 // Simple linked list of entities
-typedef struct {
-    Entity* e;
-    struct Node* next;
-} Node;
+// typedef struct {
+//     Entity* e;
+//     struct Node* next;
+// } Node;
 
-typedef struct {
-    Node* head;
-    int len;
-} EntityList;
+// typedef struct {
+//     Node* head;
+//     int len;
+// } EntityList;
 
 
 Entity* entity_new(char c, char* name, bool blocking, int x, int y);
 void entity_move(Entity* e, int dx, int dy);
+void entity_set_coords(Entity* e, int x, int y);
 
-EntityList* elist_new();
-void elist_insert(EntityList* l, Entity* e);
+// EntityList* elist_new();
+// void elist_insert(EntityList* l, Entity* e);
 // void elist_remove(EntityList* l, Entity* e);
-void elist_delete(EntityList* l);
+// void elist_delete(EntityList* l);
 
 #endif

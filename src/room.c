@@ -1,4 +1,5 @@
-#include <stdlib.h>
+#include <malloc.h>
+#include "libtcod.h"
 #include "room.h"
 
 
@@ -14,28 +15,24 @@ Room* room_new(int x, int y, int w, int h, int id) {
     return r;
 }
 
-int* room_center(Room* r) {
-    int* c;
-    c = malloc(sizeof(int) * 2);
-
-    c[0] = (r->x1 + r->x2) / 2;
-    c[1] = (r->y1 + r->y2) / 2;
-    return c;
+void room_center(Room* r, int* x, int* y) {
+    *x = (r->x1 + r->x2) / 2;
+    *y = (r->y1 + r->y2) / 2;
 }
 
-int* room_random_point(Room* r, int offset) {
-    int* p;
-    p = malloc(sizeof(int) * 2);
+void room_random_point(Room* r, int offset, int* x, int* y) {
+    TCOD_random_t rng;
+    rng = TCOD_random_get_instance();
 
-    p[0] = r->x1 + rand() / (RAND_MAX / (r->x2 - r->x1 + 1) + 1);
-    p[1] = r->y1 + rand() / (RAND_MAX / (r->y2 - r->y1 + 1) + 1);
-    return p;
+    *x = r->x1 + TCOD_random_get_int(rng, 0, r->x2 - r->x1 + 1);
+    *y = r->y1 + TCOD_random_get_int(rng, 0, r->y2 - r->y1 + 1);
 }
 
 bool room_overlaps_with(Room* r, Room* s) {
     bool xcond, ycond;
-    xcond = r->x1 <= s->x2 && r->x2 >= s->x1;
-    ycond = r->y1 <= s->y2 && r->y2 >= s->y1;
+    int p = ROOM_PADDING;
+    xcond = r->x1-p <= s->x2+p && r->x2+p >= s->x1-p;
+    ycond = r->y1-p <= s->y2+p && r->y2+p >= s->y1-p;
     return xcond && ycond;
 }
 
