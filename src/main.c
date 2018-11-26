@@ -58,16 +58,16 @@ bool handle_keys(Player* p) {
             // Nothing happened
             break;
         case TCODK_UP:
-            player_move(p, 0, -1);
-            break;
-        case TCODK_DOWN:
-            player_move(p, 0, 1);
-            break;
-        case TCODK_LEFT:
             player_move(p, -1, 0);
             break;
-        case TCODK_RIGHT:
+        case TCODK_DOWN:
             player_move(p, 1, 0);
+            break;
+        case TCODK_LEFT:
+            player_move(p, 0, -1);
+            break;
+        case TCODK_RIGHT:
+            player_move(p, 0, 1);
             break;
     }
 
@@ -89,19 +89,20 @@ void render_all(Dungeon* d, TCOD_console_t con) {
     p = d->player;
 
     // Render the current state of the map
+    TCOD_console_set_default_foreground(con, WHITE);
+
     for (y=0; y < f->h; y++) {
         for (x=0; x < f->w; x++) {
             t = &f->map[y][x];
-            TCOD_console_set_default_foreground(con, t->fg);
-            TCOD_console_set_default_background(con, t->bg);
-            TCOD_console_put_char(con, y, x, t->c, TCOD_BKGND_NONE);
+            TCOD_console_set_char_foreground(con, x, y, t->fg);
+            TCOD_console_set_char_background(con, x, y, t->bg, TCOD_BKGND_DEFAULT);
+            TCOD_console_set_char(con, x, y, t->c);
         }
     }
 
     // Draw the player
-    TCOD_console_set_default_foreground(con, WHITE);
     TCOD_console_put_char(
-        con, p->e->y, p->e->x, p->e->c, TCOD_BKGND_NONE
+        con, p->e->x, p->e->y, p->e->c, TCOD_BKGND_DEFAULT
     );
 
     TCOD_console_blit(
