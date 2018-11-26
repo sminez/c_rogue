@@ -1,15 +1,15 @@
-#include "libtcod/src/libtcod/color.h"
-#include <stdbool.h>
-
 #ifndef _CROGUE_TILE_H
 #define _CROGUE_TILE_H
+
+#include <stdbool.h>
+#include "libtcod/src/libtcod/color.h"
 
 typedef struct {
     bool explored;
     bool blocksVis;
     bool blocksMove;
     char *name;
-    char sym;
+    char c;
     TCOD_color_t fg;
     TCOD_color_t bg;
     int pathCost;
@@ -17,6 +17,7 @@ typedef struct {
     int agroWeight;
 } Tile;
 
+Tile* tile_new();
 void tile_wall(Tile* t);
 void tile_floor(Tile* t);
 void tile_door_closed(Tile* t);

@@ -2,12 +2,15 @@
 #include "room.h"
 
 
-Room* new_room(int x, int y, int w, int h) {
-    Room* r = malloc(sizeof(Room));
+Room* room_new(int x, int y, int w, int h, int id) {
+    Room* r;
+    r = malloc(sizeof(Room));
+
     r->x1 = x;
     r->y1 = y;
     r->x2 = x + w;
     r->y2 = y + h;
+    r->id = id;
     return r;
 }
 

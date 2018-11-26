@@ -11,7 +11,7 @@ typedef struct {
     int id;
 } Room;
 
-Room* new_room(int x, int y, int w, int h);
+Room* room_new(int x, int y, int w, int h, int id);
 int* room_center(Room* r);
 int* room_random_point(Room* r, int offset);
 bool room_overlaps_with(Room* r, Room* s);
