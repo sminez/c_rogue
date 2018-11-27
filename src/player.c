@@ -16,7 +16,7 @@ Player* init_player(int y, int x) {
     return p;
 }
 
-void player_move(Player* p, Floor* f, int dy, int dx) {
+void player_move(Player *p, Floor *f, int dy, int dx) {
     int x, y;
     x = p->e->x + dx;
     y = p->e->y + dy;

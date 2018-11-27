@@ -7,27 +7,25 @@
 #include "player.h"
 #include "floor.h"
 
-#define SCREEN_W 80
+#define WIDTH 80
 #define SCREEN_H 50
-#define STATUS_W 80
-#define STATUS_H 10
-#define MAP_W 80
-#define MAP_H 40
+#define STATUS_H 5
+#define MAP_H SCREEN_H - STATUS_H
 
-bool handle_keys(Player* p, Floor* f);
-void render_all(Dungeon* d, TCOD_console_t con);
+bool handle_keys(Player *p, Floor *f);
+void render_all(Dungeon *d, TCOD_console_t con);
 
 int main() {
     bool running;
     TCOD_console_t con;
-    Player* p;
-    Dungeon* d;
-    Floor* f;
+    Player *p;
+    Dungeon *d;
+    Floor *f;
 
     running = true;
-    con = TCOD_console_new(SCREEN_W, SCREEN_H);
+    con = TCOD_console_new(WIDTH, SCREEN_H);
     p = init_player(0, 0);
-    d = dungeon_new(MAP_W, MAP_H, p);
+    d = dungeon_new(WIDTH, MAP_H, p);
     f = d->floors[0];
 
     TCOD_console_set_custom_font(
@@ -38,9 +36,10 @@ int main() {
     );
 
     TCOD_console_init_root(
-        SCREEN_W, SCREEN_H, "Let's Loot!", false, TCOD_RENDERER_SDL
+        WIDTH, SCREEN_H, "Let's Loot!", false, TCOD_RENDERER_SDL
     );
 
+    render_all(d, con);
     while (!TCOD_console_is_window_closed()) {
         running = handle_keys(p, f);
         if (!running) {
@@ -51,10 +50,10 @@ int main() {
     }
 }
 
-bool handle_keys(Player* p, Floor* f) {
+bool handle_keys(Player *p, Floor *f) {
     TCOD_key_t key;
 
-    key = TCOD_console_check_for_keypress(TCOD_EVENT_KEY_PRESS);
+    key = TCOD_console_wait_for_keypress(true);
 
     switch (key.vk) {
         case TCODK_NONE:
@@ -72,44 +71,64 @@ bool handle_keys(Player* p, Floor* f) {
         case TCODK_RIGHT:
             player_move(p, f, 0, 1);
             break;
+        default:
+            break;
     }
 
     switch (key.c) {
         case 'q':
-            if (key.shift) return false;
+            if (key.shift)
+				return false;
+			break;
+        case 'k':
+            player_move(p, f, -1, 0);
+            break;
+        case 'j':
+            player_move(p, f, 1, 0);
+            break;
+        case 'h':
+            player_move(p, f, 0, -1);
+            break;
+        case 'l':
+            player_move(p, f, 0, 1);
+            break;
     }
 
     return true;
 }
 
-void render_all(Dungeon* d, TCOD_console_t con) {
+void render_all(Dungeon *d, TCOD_console_t con) {
     int x, y;
     Floor* f;
     Tile* t;
     Player* p;
 
-    f = d->floors[d->depth];
+    f = d->floors[d->currentFloor];
     p = d->player;
 
-    // Render the current state of the map
-    TCOD_console_set_default_foreground(con, WHITE);
+    TCOD_console_set_default_foreground(con, LIGHT0);
+    TCOD_console_set_default_background(con, DARK0);
 
+    // Base map tiles
     for (y=0; y < f->h; y++) {
         for (x=0; x < f->w; x++) {
             t = &f->map[y][x];
             TCOD_console_set_char_foreground(con, x, y, t->fg);
-            TCOD_console_set_char_background(con, x, y, t->bg, TCOD_BKGND_DEFAULT);
+            TCOD_console_set_char_background(con, x, y, t->bg, TCOD_BKGND_SET);
             TCOD_console_set_char(con, x, y, t->c);
         }
     }
 
-    // Draw the player
-    TCOD_console_put_char(
-        con, p->e->x, p->e->y, p->e->c, TCOD_BKGND_DEFAULT
-    );
+    // Features, items, traps...
+
+    // Enemies
+
+    // Player (TODO: set color based on current health perc)
+    TCOD_console_set_char_foreground(con, p->e->x, p->e->y, LIGHT0);
+    TCOD_console_set_char(con, p->e->x, p->e->y, p->e->c);
 
     TCOD_console_blit(
-        con, 0, 0, SCREEN_W, SCREEN_H, 0, 0, 0, 1.0, 1.0
+        con, 0, 0, WIDTH, SCREEN_H, 0, 0, 0, 1.0, 1.0
     );
     TCOD_console_flush();
 }

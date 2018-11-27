@@ -4,13 +4,13 @@
 
 
 Tile* tile_new() {
-    Tile* t;
+    Tile *t;
     t = malloc(sizeof(Tile));
     t->explored = false;
     return t;
 }
 
-void tile_wall(Tile* t) {
+void tile_wall(Tile *t) {
     t->blocksVis = true;
     t->blocksMove = true;
     t->name = "wall";
@@ -21,7 +21,7 @@ void tile_wall(Tile* t) {
     t->agroCost = 4;
 }
 
-void tile_floor(Tile* t) {
+void tile_floor(Tile *t) {
     t->blocksVis = false;
     t->blocksMove = false;
     t->name = "floor";
@@ -32,7 +32,7 @@ void tile_floor(Tile* t) {
     t->agroCost = 1;
 }
 
-void tile_door_closed(Tile* t) {
+void tile_door_closed(Tile *t) {
     t->blocksVis = true;
     t->blocksMove = true;
     t->name = "door_closed";
@@ -43,7 +43,7 @@ void tile_door_closed(Tile* t) {
     t->agroCost = 2;
 }
 
-void tile_door_open(Tile* t) {
+void tile_door_open(Tile *t) {
     t->blocksVis = false;
     t->blocksMove = false;
     t->name = "door_open";
@@ -54,18 +54,18 @@ void tile_door_open(Tile* t) {
     t->agroCost = 2;
 }
 
-void tile_door_secret(Tile* t) {
+void tile_door_secret(Tile *t) {
     t->blocksVis = true;
     t->blocksMove = true;
     t->name = "door_secret";
     t->c = '#';
     t->fg = DARK4;
-    t->bg = DARK1;
+    t->bg = DARK0;
     t->pathCost = -1;
     t->agroCost = 3;
 }
 
-void tile_stairs_up(Tile* t) {
+void tile_stairs_up(Tile *t) {
     t->blocksVis = false;
     t->blocksMove = false;
     t->name = "stairs_up";
@@ -76,7 +76,7 @@ void tile_stairs_up(Tile* t) {
     t->agroCost = 1;
 }
 
-void tile_stairs_down(Tile* t) {
+void tile_stairs_down(Tile *t) {
     t->blocksVis = false;
     t->blocksMove = false;
     t->name = "stairs_down";

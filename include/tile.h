@@ -18,12 +18,12 @@ typedef struct {
 } Tile;
 
 Tile* tile_new();
-void tile_wall(Tile* t);
-void tile_floor(Tile* t);
-void tile_door_closed(Tile* t);
-void tile_door_open(Tile* t);
-void tile_door_secret(Tile* t);
-void tile_stairs_up(Tile* t);
-void tile_stairs_down(Tile* t);
+void tile_wall(Tile *t);
+void tile_floor(Tile *t);
+void tile_door_closed(Tile *t);
+void tile_door_open(Tile *t);
+void tile_door_secret(Tile *t);
+void tile_stairs_up(Tile *t);
+void tile_stairs_down(Tile *t);
 
 #endif

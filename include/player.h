@@ -8,15 +8,16 @@
 #define PLAYER_BASE_VISION 5
 
 typedef struct {
-    Entity* e;
+    Entity *e;
     int hp;
     int vision;
 } Player;
 
 
 Player* init_player(int y, int x);
-void player_move(Player* p, Floor* f, int dy, int dx);
-void player_attack(Player* p, int dy, int dx);
-void player_take_damage(Player* p, int amount);
+void player_move(Player *p, Floor *f, int dy, int dx);
+void player_attack(Player *p, int dy, int dx);
+void player_take_damage(Player *p, int amount);
+void player_color_from_health(Player *p);
 
 #endif

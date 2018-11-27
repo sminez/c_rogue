@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -I$(IDIR) -ltcod
+CFLAGS = -I$(IDIR) -ltcod -lm -std=c99 -pedantic -Wall
 
 IDIR = ./include/
 SRCDIR = ./src/
