@@ -3,7 +3,7 @@
 #ifndef _CROGUE_ROOM_H
 #define _CROGUE_ROOM_H
 
-#define ROOM_PADDING 1
+#define ROOM_PADDING 2
 
 typedef struct {
     int x1;

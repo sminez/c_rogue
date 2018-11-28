@@ -13,7 +13,7 @@ Tile* tile_new() {
 void tile_wall(Tile *t) {
     t->blocksVis = true;
     t->blocksMove = true;
-    t->name = "wall";
+    t->tt = wall;
     t->c = '#';
     t->fg = DARK4;
     t->bg = DARK1;
@@ -21,10 +21,10 @@ void tile_wall(Tile *t) {
     t->agroCost = 4;
 }
 
-void tile_floor(Tile *t) {
+void tile_ground(Tile *t) {
     t->blocksVis = false;
     t->blocksMove = false;
-    t->name = "floor";
+    t->tt = ground;
     t->c = '.';
     t->fg = DARK4;
     t->bg = DARK0;
@@ -35,7 +35,7 @@ void tile_floor(Tile *t) {
 void tile_door_closed(Tile *t) {
     t->blocksVis = true;
     t->blocksMove = true;
-    t->name = "door_closed";
+    t->tt = door_closed;
     t->c = '+';
     t->fg = FADED_BROWN;
     t->bg = DARK0;
@@ -46,7 +46,7 @@ void tile_door_closed(Tile *t) {
 void tile_door_open(Tile *t) {
     t->blocksVis = false;
     t->blocksMove = false;
-    t->name = "door_open";
+    t->tt = door_open;
     t->c = '\'';
     t->fg = FADED_BROWN;
     t->bg = DARK0;
@@ -57,7 +57,7 @@ void tile_door_open(Tile *t) {
 void tile_door_secret(Tile *t) {
     t->blocksVis = true;
     t->blocksMove = true;
-    t->name = "door_secret";
+    t->tt = door_secret;
     t->c = '#';
     t->fg = DARK4;
     t->bg = DARK0;
@@ -68,7 +68,7 @@ void tile_door_secret(Tile *t) {
 void tile_stairs_up(Tile *t) {
     t->blocksVis = false;
     t->blocksMove = false;
-    t->name = "stairs_up";
+    t->tt = stairs_up;
     t->c = '<';
     t->fg = WHITE;
     t->bg = DARK0;
@@ -79,7 +79,7 @@ void tile_stairs_up(Tile *t) {
 void tile_stairs_down(Tile *t) {
     t->blocksVis = false;
     t->blocksMove = false;
-    t->name = "stairs_down";
+    t->tt = stairs_down;
     t->c = '>';
     t->fg = WHITE;
     t->bg = DARK0;

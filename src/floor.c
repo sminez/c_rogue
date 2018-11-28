@@ -56,6 +56,7 @@ Floor* floor_new(int w, int h) {
     f->rooms = rooms;
     f->n_rooms = n_rooms;
     floor_connect(f);
+    floor_add_exits(f);
     return f;
 }
 
@@ -64,7 +65,7 @@ void floor_carve_room(Floor *f, Room *r) {
 
     for (x=r->x1+1; x < r->x2; x++)
         for (y=r->y1+1; y < r->y2; y++)
-            tile_floor(&f->map[y][x]);
+            tile_ground(&f->map[y][x]);
 }
 
 void floor_connect(Floor *f) {
@@ -121,10 +122,10 @@ void floor_connect_rooms(Floor *f, Room *r, Room *s) {
     horizontal = room_h_with(r, s);
 
     if (horizontal) {
-        k = TCOD_random_get_int(rng, MIN(x1, x2), MAX(x1, x2));
+        k = TCOD_random_get_int(rng, MIN(x1, x2)+2, MAX(x1, x2)-2);
         e1 = x1; e2 = x2; m1 = y1; m2 = y2;
     } else {
-        k = TCOD_random_get_int(rng, MIN(y1, y2), MAX(y1, y2));
+        k = TCOD_random_get_int(rng, MIN(y1, y2)+2, MAX(y1, y2)-2);
         e1 = y1; e2 = y2; m1 = x1; m2 = x2;
     }
 
@@ -142,10 +143,44 @@ void floor_make_corridor(Floor *f, int p1, int p2, int c, bool horizontal) {
 
     if (horizontal)
         for (i=a; i<=b; i++) {
-            tile_floor(&f->map[c][i]);
+            tile_ground(&f->map[c][i]);
         }
     else
         for (i=a; i<=b; i++) {
-            tile_floor(&f->map[i][c]);
+            tile_ground(&f->map[i][c]);
         }
+}
+
+void floor_add_exits(Floor *f) {
+    int x, y;
+    Room *r;
+
+    r = f->rooms[0];
+    room_random_point(r, 2, &x, &y);
+    tile_stairs_up(&f->map[y][x]);
+    // The stairs up to the next level are the default entry point.
+    f->spawn_x = x; f->spawn_y = y;
+
+    r = f->rooms[f->n_rooms-1];
+    room_random_point(r, 2, &x, &y);
+    tile_stairs_down(&f->map[y][x]);
+}
+
+void floor_fov_init(Floor *f) {
+    int x, y;
+    Tile t;
+    TCOD_map_t m, n;
+
+    m = TCOD_map_new(f->w, f->h);
+    n = TCOD_map_new(f->w, f->h);
+
+    for (x=0; x < f->w; x++)
+        for (y=0; y < f->h; y++) {
+            t = f->map[y][x];
+            TCOD_map_set_properties(m, x, y, !t.blocksVis, !t.blocksMove);
+        }
+
+    TCOD_map_copy(m, n);
+    f->fov1 = m;
+    f->fov2 = n;
 }
