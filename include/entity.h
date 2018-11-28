@@ -14,7 +14,6 @@ typedef struct {
     char c;
     bool blocking;
     TCOD_color_t fg;
-    TCOD_color_t bg;
     char *name;
 } Entity;
 

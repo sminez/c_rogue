@@ -122,10 +122,10 @@ void floor_connect_rooms(Floor *f, Room *r, Room *s) {
     horizontal = room_h_with(r, s);
 
     if (horizontal) {
-        k = TCOD_random_get_int(rng, MIN(x1, x2)+2, MAX(x1, x2)-2);
+        k = TCOD_random_get_int(rng, MIN(x1, x2), MAX(x1, x2));
         e1 = x1; e2 = x2; m1 = y1; m2 = y2;
     } else {
-        k = TCOD_random_get_int(rng, MIN(y1, y2)+2, MAX(y1, y2)-2);
+        k = TCOD_random_get_int(rng, MIN(y1, y2), MAX(y1, y2));
         e1 = y1; e2 = y2; m1 = x1; m2 = x2;
     }
 

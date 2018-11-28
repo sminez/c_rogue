@@ -6,8 +6,8 @@
 #include "room.h"
 #include "tile.h"
 
-#define MAX_ROOM_TRIES 1000
-#define MIN_ROOM_SIZE 7
+#define MAX_ROOM_TRIES 2000
+#define MIN_ROOM_SIZE 6
 #define MAX_ROOM_SIZE 12
 
 typedef struct {
