@@ -3,24 +3,19 @@
 #include <stdbool.h>
 #include "entity.h"
 #include "floor.h"
+#include "mob.h"
 
 #define PLAYER_BASE_HP 10
 #define PLAYER_BASE_VISION1 8
 #define PLAYER_BASE_VISION2 15
 #define PLAYER_XP_MUL 1.2
-#define PLAYER_BASE_STR 3
+#define PLAYER_BASE_PHY 3
 #define PLAYER_BASE_DEX 3
 #define PLAYER_BASE_VIT 3
-#define PLAYER_BASE_INT 3
+#define PLAYER_BASE_MND 3
 
 typedef struct {
-    Entity *e;
-    int STR;
-    int DEX;
-    int VIT;
-    int INT;
-    int hp;
-    int hp_max;
+    Mob *m;
     int xp;
     int xp_next;
     int level;

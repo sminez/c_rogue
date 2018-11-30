@@ -79,7 +79,7 @@ int mob_skill_check(Mob *m, Skill s, int modifier) {
 }
 
 // FIXME: very simplistic at the moment
-Message* mob_act(Mob*m, Floor *f) {
+struct Message* mob_act(Mob*m, Floor *f) {
     int dx, dy;
     TCOD_random_t rng;
 
@@ -97,7 +97,7 @@ Message* mob_act(Mob*m, Floor *f) {
     return mob_move_or_attack(m, f, dx, dy);
 }
 
-Message* mob_attack(Mob *m, Mob *t) {
+struct Message* mob_attack(Mob *m, Mob *t) {
     int damage;
 
     // TODO: calculate damage better
@@ -106,13 +106,13 @@ Message* mob_attack(Mob *m, Mob *t) {
         return mob_take_damage(t, damage);
 }
 
-Message* mob_die(Mob *m) {
+struct Message* mob_die(Mob *m) {
     char msg[50];
     sprintf(msg, "%s died!", m->e->name);
     return message_new(msg, BRIGHT_RED);
 }
 
-Message* mob_heal(Mob *m, int amount) {
+struct Message* mob_heal(Mob *m, int amount) {
     char msg[50];
 
     m->hp += amount;
@@ -123,7 +123,7 @@ Message* mob_heal(Mob *m, int amount) {
     return message_new(msg, BRIGHT_GREEN);
 }
 
-Message* mob_move_or_attack(Mob *m, Floor *f, int dy, int dx) {
+struct Message* mob_move_or_attack(Mob *m, Floor *f, int dy, int dx) {
     int x, y, i;
     Mob *t;
 
@@ -140,7 +140,7 @@ Message* mob_move_or_attack(Mob *m, Floor *f, int dy, int dx) {
     return NULL;
 }
 
-Message* mob_take_damage(Mob *m, int amount) {
+struct Message* mob_take_damage(Mob *m, int amount) {
     char msg[50];
 
     m->hp -= amount;
@@ -150,4 +150,4 @@ Message* mob_take_damage(Mob *m, int amount) {
     return message_new(msg, LIGHT2);
 }
 
-// Message* mob_use_item(Mob *m, Floor *f, Item *i);
+// struct Message* mob_use_item(Mob *m, Floor *f, Item *i);

@@ -37,8 +37,12 @@ void render_map(TCOD_console_t con, Floor *f, Player *p) {
     int x, y;
     Tile* t;
 
-    TCOD_map_compute_fov(f->fov1, p->e->x, p->e->y, p->vision1, true, FOV_SHADOW);
-    TCOD_map_compute_fov(f->fov2, p->e->x, p->e->y, p->vision2, true, FOV_DIAMOND);
+    TCOD_map_compute_fov(
+        f->fov1, p->m->e->x, p->m->e->y, p->vision1, true, FOV_SHADOW
+    );
+    TCOD_map_compute_fov(
+        f->fov2, p->m->e->x, p->m->e->y, p->vision2, true, FOV_DIAMOND
+    );
 
     for (y=0; y < f->h; y++) {
         for (x=0; x < f->w; x++) {
@@ -73,8 +77,8 @@ void clear_tile(TCOD_console_t con, int x, int y) {
 
 void render_player(TCOD_console_t con, Player *p) {
     player_color_from_health(p);
-    TCOD_console_set_char_foreground(con, p->e->x, p->e->y, p->e->fg);
-    TCOD_console_set_char(con, p->e->x, p->e->y, p->e->c);
+    TCOD_console_set_char_foreground(con, p->m->e->x, p->m->e->y, p->m->e->fg);
+    TCOD_console_set_char(con, p->m->e->x, p->m->e->y, p->m->e->c);
 }
 
 void render_status(TCOD_console_t con, Dungeon *d, int offset) {
@@ -84,12 +88,12 @@ void render_status(TCOD_console_t con, Dungeon *d, int offset) {
     TCOD_console_print(
         con, 1, d->h+offset-3,
         "Lvl:%d  Hp:%d/%d  Xp:%d/%d  Gold:%d  Floor:%d",
-        p->level, p->hp, p->hp_max, p->xp, p->xp_next,
+        p->level, p->m->hp, p->m->hp_max, p->xp, p->xp_next,
         p->gold, d->current_floor+1
     );
     TCOD_console_print(
         con, 1, d->h+offset-2,
-        "Str:%d  Dex:%d  Vit:%d  Int:%d",
-        p->STR, p->DEX, p->VIT, p->INT
+        "Phy:%d  Dex:%d  Vit:%d  Mnd:%d",
+        p->m->PHY, p->m->DEX, p->m->VIT, p->m->MND
     );
 }

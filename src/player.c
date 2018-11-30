@@ -5,22 +5,19 @@
 #include "entity.h"
 #include "floor.h"
 #include "colors.h"
+#include "mob.h"
 
 Player* init_player(int y, int x) {
     Player *p;
-    Entity *e;
+    Mob *m;
 
     p = malloc(sizeof(Player));
-    e = entity_new('@', "player", false, 0, 0);
+    m = mob_new(
+        '@', "Player", LIGHT0, PLAYER_BASE_PHY, PLAYER_BASE_DEX,
+        PLAYER_BASE_VIT, PLAYER_BASE_MND, PLAYER_BASE_HP, 0
+    );
 
-    p->e = e;
-    p->e->fg = LIGHT0;
-    p->STR = PLAYER_BASE_STR;
-    p->DEX = PLAYER_BASE_DEX;
-    p->VIT = PLAYER_BASE_VIT;
-    p->INT = PLAYER_BASE_INT;
-    p->hp = PLAYER_BASE_HP;
-    p->hp_max = PLAYER_BASE_HP;
+    p->m = m;
     p->xp = 0;
     p->xp_next = 50;
     p->level = 1;
@@ -32,25 +29,25 @@ Player* init_player(int y, int x) {
 
 void player_move(Player *p, Floor *f, int dy, int dx) {
     int x, y;
-    x = p->e->x + dx;
-    y = p->e->y + dy;
+    x = p->m->e->x + dx;
+    y = p->m->e->y + dy;
 
     if (!f->map[y][x].blocksMove)
-        entity_move(p->e, dx, dy);
+        entity_move(p->m->e, dx, dy);
 }
 
 void player_color_from_health(Player *p) {
     double perc;
-    perc = (double)p->hp / (double)p->hp_max;
+    perc = (double)p->m->hp / (double)p->m->hp_max;
 
     if (perc > 0.75) {
-        p->e->fg = LIGHT0;
+        p->m->e->fg = LIGHT0;
     } else if (perc > 0.5) {
-        p->e->fg = BRIGHT_YELLOW;
+        p->m->e->fg = BRIGHT_YELLOW;
     } else if (perc > 0.25) {
-        p->e->fg = BRIGHT_ORANGE;
+        p->m->e->fg = BRIGHT_ORANGE;
     } else {
-        p->e->fg = BRIGHT_RED;
+        p->m->e->fg = BRIGHT_RED;
     }
 }
 
@@ -64,23 +61,23 @@ void player_level_up(Player *p) {
 
     // Increase HP
     rng = TCOD_random_get_instance();
-    h = TCOD_random_get_int(rng, 1, 10) + p->VIT;
-    p->hp_max += h;
-    p->hp += h;
+    h = TCOD_random_get_int(rng, 1, 10) + p->m->VIT;
+    p->m->hp_max += h;
+    p->m->hp += h;
 
     // Increase a stat
     switch(TCOD_random_get_int(rng, 1, 4)) {
         case 1:
-            p->STR += 1;
+            p->m->PHY += 1;
             break;
         case 2:
-            p->DEX += 1;
+            p->m->DEX += 1;
             break;
         case 3:
-            p->VIT += 1;
+            p->m->VIT += 1;
             break;
         case 4:
-            p->INT += 1;
+            p->m->MND += 1;
             break;
     }
 }

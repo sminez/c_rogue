@@ -33,11 +33,11 @@ void dungeon_move_to_floor(Dungeon *d, int to, int from) {
         // If we came from a real floor (from == -1 on game init) then
         // we store the position of the stairs that we came up as the
         // new entry point.
-        d->floors[from]->spawn_x = d->player->e->x;
-        d->floors[from]->spawn_y = d->player->e->y;
+        d->floors[from]->spawn_x = d->player->m->e->x;
+        d->floors[from]->spawn_y = d->player->m->e->y;
     }
 
-    entity_set_coords(d->player->e, x, y);
+    entity_set_coords(d->player->m->e, x, y);
     floor_fov_init(d->floors[to]);
     d->current_floor = to;
 }

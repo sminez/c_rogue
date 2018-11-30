@@ -4,7 +4,7 @@
 #include "libtcod/src/libtcod/color.h"
 #include "entity.h"
 #include "floor.h"
-#include "render.h"
+// #include "render.h"
 
 typedef enum {
     head, neck, body,
@@ -42,6 +42,8 @@ Mob* mob_new(
     int aggro_range
 );
 
+struct Message;
+
 // Helpers
 // void mob_equip(Mob *m, Floor *f, Item *i, Slot s);
 int mob_get_equipment_total(Mob *m, Attr a);
@@ -50,13 +52,13 @@ int mob_get_ev(Mob *m);
 int mob_skill_check(Mob *m, Skill s, int modifier);
 
 // Actions (Should all return Messages*)
-Message* mob_act(Mob*m, Floor *f);
-Message* mob_attack(Mob *m, Mob *target);
-Message* mob_die(Mob *m);
-Message* mob_heal(Mob *m, int amount);
-Message* mob_move_or_attack(Mob *m, Floor *f, int dy, int dx);
-Message* mob_take_damage(Mob *m, int amount);
-// Message* mob_use_item(Mob *m, Floor *f, Item *i);
+struct Message* mob_act(Mob*m, Floor *f);
+struct Message* mob_attack(Mob *m, Mob *target);
+struct Message* mob_die(Mob *m);
+struct Message* mob_heal(Mob *m, int amount);
+struct Message* mob_move_or_attack(Mob *m, Floor *f, int dy, int dx);
+struct Message* mob_take_damage(Mob *m, int amount);
+// struct Message* mob_use_item(Mob *m, Floor *f, Item *i);
 
 // Enemy constructors
 Mob* mob_new_bat(int level);       // grey b

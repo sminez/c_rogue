@@ -94,14 +94,14 @@ bool handle_keys(Player *p, Dungeon *d) {
             player_move(p, f, 0, 1);
             break;
         case ',':  // <
-            if (key.shift && f->map[p->e->y][p->e->x].tt == stairs_up)
+            if (key.shift && f->map[p->m->e->y][p->m->e->x].tt == stairs_up)
                 if (d->current_floor != 0)
                     dungeon_move_to_floor(
                         d, d->current_floor-1, d->current_floor
                     );
             break;
         case '.':  // >
-            if (key.shift && f->map[p->e->y][p->e->x].tt == stairs_down)
+            if (key.shift && f->map[p->m->e->y][p->m->e->x].tt == stairs_down)
                 if (d->current_floor != N_FLOORS-1)
                     dungeon_move_to_floor(
                         d, d->current_floor+1, d->current_floor
