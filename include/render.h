@@ -12,6 +12,7 @@ typedef struct {
     TCOD_color_t c;
 } Message;
 
+Message* message_new(char *m, TCOD_color_t c);
 void render_all(Dungeon *d, TCOD_console_t con, int w, int h, int offset);
 void render_tile(TCOD_console_t con, Tile *t, int x, int y, TCOD_color_t fg, TCOD_color_t bg);
 void clear_tile(TCOD_console_t con, int x, int y);

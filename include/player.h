@@ -5,8 +5,8 @@
 #include "floor.h"
 
 #define PLAYER_BASE_HP 10
-#define PLAYER_BASE_VISION1 5
-#define PLAYER_BASE_VISION2 7
+#define PLAYER_BASE_VISION1 8
+#define PLAYER_BASE_VISION2 15
 #define PLAYER_XP_MUL 1.2
 #define PLAYER_BASE_STR 3
 #define PLAYER_BASE_DEX 3

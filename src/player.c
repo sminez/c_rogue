@@ -7,8 +7,8 @@
 #include "colors.h"
 
 Player* init_player(int y, int x) {
-    Player* p;
-    Entity* e;
+    Player *p;
+    Entity *e;
 
     p = malloc(sizeof(Player));
     e = entity_new('@', "player", false, 0, 0);

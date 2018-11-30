@@ -20,6 +20,8 @@ Floor* floor_new(int w, int h) {
 
     f->w = w;
     f->h = h;
+    f->n_mobs = f->n_rooms = 0;
+    f->spawn_x = f->spawn_y = 0;
 
     // Block fill the map with walls
     f->map = malloc(sizeof(Tile) * h);
@@ -183,4 +185,8 @@ void floor_fov_init(Floor *f) {
     TCOD_map_copy(m, n);
     f->fov1 = m;
     f->fov2 = n;
+}
+
+void floor_add_mobs(Floor *f, int depth) {
+
 }

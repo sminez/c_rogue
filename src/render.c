@@ -1,3 +1,4 @@
+#include <malloc.h>
 #include "libtcod.h"
 #include "dungeon.h"
 #include "player.h"
@@ -5,6 +6,15 @@
 #include "render.h"
 #include "floor.h"
 #include "tile.h"
+
+Message* message_new(char *m, TCOD_color_t c) {
+    Message* msg;
+
+    msg = malloc(sizeof(Message));
+    msg->m = m;
+    msg->c = c;
+    return msg;
+}
 
 void render_all(Dungeon *d, TCOD_console_t con, int w, int h, int offset) {
     Floor* f;
@@ -28,7 +38,7 @@ void render_map(TCOD_console_t con, Floor *f, Player *p) {
     Tile* t;
 
     TCOD_map_compute_fov(f->fov1, p->e->x, p->e->y, p->vision1, true, FOV_SHADOW);
-    TCOD_map_compute_fov(f->fov2, p->e->x, p->e->y, p->vision2, true, FOV_SHADOW);
+    TCOD_map_compute_fov(f->fov2, p->e->x, p->e->y, p->vision2, true, FOV_DIAMOND);
 
     for (y=0; y < f->h; y++) {
         for (x=0; x < f->w; x++) {
