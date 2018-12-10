@@ -17,10 +17,12 @@
 bool handle_keys(Player *p, Dungeon *d);
 
 int main() {
+    int i;
     bool running;
     TCOD_console_t con;
     Player *p;
     Dungeon *d;
+    Floor *f;
 
     running = true;
     con = TCOD_console_new(WIDTH, SCREEN_H);
@@ -44,6 +46,11 @@ int main() {
         if (!running) {
             return 0;
         }
+
+        f = d->floors[d->current_floor];
+
+        for (i=0; i < f->n_mobs; i++)
+            mob_act(f->mobs[i], f);
     }
 }
 
@@ -58,16 +65,16 @@ bool handle_keys(Player *p, Dungeon *d) {
             // Nothing happened
             break;
         case TCODK_UP:
-            player_move(p, f, -1, 0);
+            mob_move_or_attack(p->m, f, -1, 0);
             break;
         case TCODK_DOWN:
-            player_move(p, f, 1, 0);
+            mob_move_or_attack(p->m, f, 1, 0);
             break;
         case TCODK_LEFT:
-            player_move(p, f, 0, -1);
+            mob_move_or_attack(p->m, f, 0, -1);
             break;
         case TCODK_RIGHT:
-            player_move(p, f, 0, 1);
+            mob_move_or_attack(p->m, f, 0, 1);
             break;
         case TCODK_ENTER:
             if (key.lalt)
@@ -80,18 +87,6 @@ bool handle_keys(Player *p, Dungeon *d) {
         case 'q':
             if (key.shift)
                 return false;
-            break;
-        case 'k':
-            player_move(p, f, -1, 0);
-            break;
-        case 'j':
-            player_move(p, f, 1, 0);
-            break;
-        case 'h':
-            player_move(p, f, 0, -1);
-            break;
-        case 'l':
-            player_move(p, f, 0, 1);
             break;
         case ',':  // <
             if (key.shift && f->map[p->m->e->y][p->m->e->x].tt == stairs_up)

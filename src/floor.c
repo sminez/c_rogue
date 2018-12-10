@@ -5,14 +5,15 @@
 #include "floor.h"
 #include "room.h"
 #include "tile.h"
+#include "mob.h"
 
 Floor* floor_new(int w, int h) {
     int x, y, i, j, n_rooms;
     TCOD_random_t rng;
     bool overlaps;
-    Room** rooms;
-    Floor* f;
-    Room* r;
+    Room **rooms;
+    Floor *f;
+    Room *r;
 
     rng = TCOD_random_get_instance();
     f = malloc(sizeof(Floor));
@@ -59,6 +60,7 @@ Floor* floor_new(int w, int h) {
     f->n_rooms = n_rooms;
     floor_connect(f);
     floor_add_exits(f);
+    floor_add_mobs(f, 0);
     return f;
 }
 
@@ -188,5 +190,22 @@ void floor_fov_init(Floor *f) {
 }
 
 void floor_add_mobs(Floor *f, int depth) {
+    int i, x, y;
+    Room *r;
+    Mob *m;
+    struct Mob **mobs;
 
+    // TODO: Compute number/type of mobs differently for each level
+    f->n_mobs = f->n_rooms;
+    mobs = malloc(sizeof(Mob) * f->n_mobs);
+
+    for (i=0; i < f->n_rooms; i++) {
+        m = mob_new_goblin(depth);
+        r = f->rooms[i];
+        room_random_point(r, 2, &x, &y);
+        entity_set_coords(m->e, x, y);
+        mobs[i] = m;
+    }
+
+    f->mobs = mobs;
 }

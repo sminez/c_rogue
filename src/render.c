@@ -7,7 +7,7 @@
 #include "floor.h"
 #include "tile.h"
 
-Message* message_new(char *m, TCOD_color_t c) {
+struct Message* message_new(char *m, TCOD_color_t c) {
     Message* msg;
 
     msg = malloc(sizeof(Message));
@@ -26,7 +26,7 @@ void render_all(Dungeon *d, TCOD_console_t con, int w, int h, int offset) {
     render_status(con, d, offset);
     render_map(con, f, p);
     // render_features(con, f):
-    // render_enemies(con, f);
+    render_mobs(con, f);
     render_player(con, p);
 
     TCOD_console_blit(con, 0, 0, w, h, 0, 0, 0, 1.0, 1.0);
@@ -79,6 +79,20 @@ void render_player(TCOD_console_t con, Player *p) {
     player_color_from_health(p);
     TCOD_console_set_char_foreground(con, p->m->e->x, p->m->e->y, p->m->e->fg);
     TCOD_console_set_char(con, p->m->e->x, p->m->e->y, p->m->e->c);
+}
+
+void render_mobs(TCOD_console_t con, Floor *f) {
+    int i;
+    Mob *m;
+
+    for (i=0; i < f->n_mobs; i++) {
+        m = f->mobs[i];
+
+        if (TCOD_map_is_in_fov(f->fov1, m->e->x, m->e->y)) {
+            TCOD_console_set_char_foreground(con, m->e->x, m->e->y, m->e->fg);
+            TCOD_console_set_char(con, m->e->x, m->e->y, m->e->c);
+        }
+    }
 }
 
 void render_status(TCOD_console_t con, Dungeon *d, int offset) {

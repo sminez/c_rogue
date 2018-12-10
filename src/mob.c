@@ -51,7 +51,7 @@ int mob_get_dr(Mob *m) {
 
 int mob_get_ev(Mob *m) {
     int e;
-    e = 50 + m->DEX;
+    e = 20 + m->DEX;
 
     return e;
 }
@@ -136,7 +136,9 @@ struct Message* mob_move_or_attack(Mob *m, Floor *f, int dy, int dx) {
             return mob_attack(m, t);
     }
 
-    entity_move(m->e, dx, dy);
+    if (!f->map[y][x].blocksMove)
+        entity_move(m->e, dx, dy);
+
     return NULL;
 }
 
