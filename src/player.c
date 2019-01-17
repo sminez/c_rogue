@@ -29,6 +29,7 @@ Player* init_player(int y, int x) {
 
 void player_move(Player *p, Floor *f, int dy, int dx) {
     int x, y;
+
     x = p->m->e->x + dx;
     y = p->m->e->y + dy;
 
@@ -38,6 +39,7 @@ void player_move(Player *p, Floor *f, int dy, int dx) {
 
 void player_color_from_health(Player *p) {
     double perc;
+
     perc = (double)p->m->hp / (double)p->m->hp_max;
 
     if (perc > 0.75) {

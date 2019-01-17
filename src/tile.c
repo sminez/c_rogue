@@ -5,6 +5,7 @@
 
 Tile* tile_new() {
     Tile *t;
+
     t = malloc(sizeof(Tile));
     t->explored = false;
     return t;

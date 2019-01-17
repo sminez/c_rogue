@@ -6,6 +6,7 @@
 Dungeon* dungeon_new(int w, int h, Player *p) {
     Dungeon *d;
     int i;
+
     d = malloc(sizeof(Dungeon));
     d->w = w;
     d->h = h;

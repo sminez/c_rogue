@@ -104,6 +104,8 @@ struct Message* mob_attack(Mob *m, Mob *t) {
     damage = m->PHY;
     if (mob_skill_check(m, Phy, -mob_get_ev(t)) > 0)
         return mob_take_damage(t, damage);
+
+    return NULL;
 }
 
 struct Message* mob_die(Mob *m) {

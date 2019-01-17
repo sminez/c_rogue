@@ -40,6 +40,7 @@ void room_random_point(Room *r, int o, int *x, int *y) {
 bool room_overlaps_with(Room *r, Room *s) {
     bool xcond, ycond;
     int p = ROOM_PADDING;
+
     xcond = r->x1-p <= s->x2+p && r->x2+p >= s->x1-p;
     ycond = r->y1-p <= s->y2+p && r->y2+p >= s->y1-p;
     return xcond && ycond;
@@ -47,6 +48,7 @@ bool room_overlaps_with(Room *r, Room *s) {
 
 bool room_h_with(Room *r, Room *s) {
     bool left, right;
+
     left = (r->x2 < s->x1) && (r->x2 < s->x2);
     right = (r->x1 > s->x1) && (r->x1 > s->x2);
     return left || right;
